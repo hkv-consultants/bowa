@@ -8,4 +8,4 @@ from django.contrib import admin
 from bowa import models
 
 
-# admin.site.register(models.TODO)
+admin.site.register(models.BowaScenario)

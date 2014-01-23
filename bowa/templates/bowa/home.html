@@ -1,0 +1,36 @@
+{% extends "lizard_ui/lizardbase.html" %}
+
+{% block css %}
+{{ block.super }}
+  {# CSS for forms #}
+  <link rel="stylesheet"
+        href="{{ STATIC_URL }}lizard_damage/form.css"
+        type="text/css"
+        media="screen, projection" />
+{% endblock css %}
+
+{% block sidebar %}
+Sidebar
+{% endblock %}
+
+{% block content %}
+
+<form action="{% url bowa_homepage %}" method="post">
+{% csrf_token %}
+    {% for field in view.scenario_form %}
+<div class="row">
+  {% if field.errors %}
+  <ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+  {% endif %}
+  <div class="span4">
+    <div class="help_tooltip{% if field.help_text %} ss_sprite ss_help{% endif %}" title="{{ field.help_text }}">&nbsp;</div>
+    {{ field.label_tag }}
+  </div>
+  {{ field }}
+</div>
+{% endfor %}
+
+
+<input type="submit" value="Versturen" class="btn btn-primary">
+</form>
+{% endblock %}

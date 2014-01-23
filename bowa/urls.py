@@ -19,8 +19,13 @@ urlpatterns = patterns(
     url(r'^map/', include('lizard_map.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', views.TestView.as_view(),
-        name='test')
+    url(r'^$', views.HomeView.as_view(),
+        name='bowa_homepage'),
+    url(
+        r'^result/(?P<slug>.*)/$',
+        views.BowaScenarioResult.as_view(),
+        name='bowa_result'
+    ),
 )
 
 urlpatterns += debugmode_urlpatterns()
