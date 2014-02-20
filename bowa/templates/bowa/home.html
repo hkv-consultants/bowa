@@ -10,6 +10,8 @@
 {% endblock css %}
 
 {% block sidebar %}
+
+{% block menu %}
 Downloads
 <ul>
   <li>
@@ -43,6 +45,7 @@ Help
     <a href="{{ STATIC_URL }}bowa/help/uitvoerresultaten.pdf" target="_blank">Uitvoer resultaten</a>
   </li>
 </ul>
+{% endblock menu %}
   <div>
     <img src="{{ STATIC_URL }}bowa/bowa.png" style="margin-top: 10px;width: 60px;">
   </div>
@@ -50,13 +53,13 @@ Help
     {{ view.version }}
   </div>
   <div>
-    Voor vragen en/of opmerkingen kunt u ons mailen: <a href="mailto:servicedesk@nelen-schuurmans.nl">servicedesk@nelen-schuurmans.nl</a>
+    Voor vragen en/of opmerkingen kunt u ons mailen: <a href="mailto:helpdesk@hkv.nl">helpdesk@hkv.nl</a>
   </div>
 {% endblock %}
 
 {% block content %}
 
-<form action="{% url bowa_homepage %}" method="post">
+<form action="{% url bowa_homepage %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
     {% for field in view.scenario_form %}
 <div class="row">

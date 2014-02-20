@@ -21,10 +21,22 @@ urlpatterns = patterns(
 
     url(r'^$', views.HomeView.as_view(),
         name='bowa_homepage'),
+    url(r'^disclaimer$', views.Disclaimer.as_view()),
+
     url(
-        r'^result/(?P<slug>.*)/$',
+        r'^result/(?P<slug>[^/]*)/$',
         views.BowaScenarioResult.as_view(),
         name='bowa_result'
+    ),
+    url(
+        r'^result/(?P<slug>[^/]*)/map/$',
+        views.BowaScenarioResultMap.as_view(),
+        name='bowa_result_map'
+    ),
+    url(
+        r'^result/(?P<slug>[^/]*)/graph/$',
+        views.BowaScenarioResultGraph.as_view(),
+        name='bowa_result_graph'
     ),
 )
 

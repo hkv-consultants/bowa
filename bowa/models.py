@@ -4,12 +4,22 @@ from __future__ import unicode_literals
 from __future__ import print_function
 
 import datetime
+import logging
+import os
 import random
+import shutil
 import string
+import zipfile
 
 from django.db import models
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
+logger = logging.getLogger(__name__)
+
+FIXED_FILENAMES = {
+    'ht10': 'ht010.asc',
+}
 
 class BowaScenario(models.Model):
     SCENARIO_TYPES = (
@@ -25,13 +35,16 @@ class BowaScenario(models.Model):
     ht100 = models.FilePathField(null=True, blank=True)
     pg = models.FilePathField(null=True, blank=True)
     lg = models.FilePathField(null=True, blank=True)
+    lg_excel = models.FilePathField(null=True, blank=True)
     ah = models.FilePathField(null=True, blank=True)
     te = models.FilePathField(null=True, blank=True)
+    err_matrix = models.FilePathField(null=True, blank=True)
 
-    deviation_ah = models.FloatField(null=True, blank=True)
-    deviation_h = models.FloatField(null=True, blank=True)
-    num_simulations = models.IntegerField(null=True, blank=True)
-    scenario_types = models.IntegerField(
+    ahdev = models.FloatField(null=True, blank=True)
+    htdev = models.FloatField(null=True, blank=True)
+    nsim = models.IntegerField(null=True, blank=True)
+    rho = models.FloatField(default=0.8)
+    scenario_type = models.IntegerField(
         null=True, blank=True, choices=SCENARIO_TYPES)
 
     slug = models.SlugField(
@@ -52,6 +65,51 @@ class BowaScenario(models.Model):
 
     def get_absolute_url(self):
         return reverse('bowa_result', kwargs=dict(slug=self.slug))
+
+    def workdir(self):
+        return os.path.join(
+            settings.BUILDOUT_DIR, 'var', 'bowa', str(self.id))
+
+    def move_files(self, metadata):
+        """Function is called when the user has uploaded correct
+        files. Metadata has keys 'lg', 'ht10' etc for each field and
+        the values have a key 'path' that says where the file
+        currently is. Copy it to a directory like
+        'var/bowa/<scenario_id>/'."""
+
+        directory = self.workdir()
+        os.makedirs(directory)
+
+        for field, data in metadata.items():
+            fixed_filename = FIXED_FILENAMES[field]
+            target = os.path.join(directory, fixed_filename)
+            if data['path'].lower().endswith('.zip'):
+                zipf = zipfile.ZipFile(data['path'], 'r')
+                for zipinfo in zipf.infolist():
+                    zipinfo.filename = fixed_filename
+                    zipf.extract(zipinfo, directory)
+                    break  # Zip files are supposed to contain a single file
+            else:
+                shutil.copyfile(data['path'], target)
+            setattr(self, field, target)
+
+        self.save()
+
+    def run_r(self):
+        cmd = ("R CMD BATCH --no-save --no-restore '--args {workdir} {nsim} {ahdev} {htdev} {rho}' {r_script}"
+            .format(
+                workdir=self.workdir(), nsim=self.nsim, ahdev=self.ahdev, htdev=self.htdev, rho=self.rho,
+                r_script="/vagrant/linux_sources/downloads/test/bowa.r"
+            ))
+        logger.debug("Running {}".format(cmd))
+        os.system(cmd)
+
+    def text_of_result_file(self):
+        result = os.path.join(self.workdir(), 'resultaat.txt')
+        if not os.path.exists(result):
+            return ''
+        else:
+            return open(result).read()
 
     def __unicode__(self):
         return self.name

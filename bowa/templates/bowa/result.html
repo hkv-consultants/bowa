@@ -1,7 +1,32 @@
-{% extends "lizard_ui/lizardbase.html" %}
+{% extends "bowa/home.html" %}
+
+{% block menu %}
+Homepage
+<ul>
+  <li>
+    <a href="{% url bowa_homepage %}">Terug naar de homepage</a>
+  </li>
+</ul>
+Resultaat
+<ul>
+   <li>
+      <a href="{% url bowa_result slug=view.result.slug %}" {% if view.active_menu == "table" %}style="font-weight: bold;"{% endif %}>Resultaat - Tabel</a>
+   </li>
+   <li>
+      <a href="{% url bowa_result_map slug=view.result.slug %}" {% if view.active_menu == "map" %}style="font-weight: bold;"{% endif %}>Resultaat - Kaart</a>
+   </li>
+   <li>
+      <a href="{% url bowa_result_graph slug=view.result.slug %}" {% if view.active_menu == "graph" %}style="font-weight: bold;"{% endif %}>Resultaat - Grafiek</a>
+   </li>
+</ul>
+{% endblock menu %}
 
 {% block content %}
 <h2>BOWA resultaat</h2>
 <h3>test</h3>
 {{ view.result }}
+
+<pre>
+{{ view.result.text_of_result_file }}
+</pre>
 {% endblock %}
