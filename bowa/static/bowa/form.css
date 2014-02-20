@@ -1,0 +1,45 @@
+
+/* Make radio buttons apear on one line without list marker */
+form ul {
+    list-style-type:none;
+}
+
+form input[type=radio] {
+    display:inline
+}
+
+form label input[type=radio]{
+    margin-left: 1em;
+}
+
+.errorlist {
+    color: #ff0000;
+}
+
+.help_tooltip {
+    width: 1.5em;
+    display: block;
+    float: left;
+    padding-left: 0px;
+    margin-top: 5px;
+}
+
+.wizard-item-row {
+    clear: both;
+}
+
+.wizard-item-row li {
+    list-style:none;
+    display: block;
+    float: left;
+}
+
+.wizard-radio-select {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.container {
+    padding-left: 50px;
+    padding-top: 10px;
+}

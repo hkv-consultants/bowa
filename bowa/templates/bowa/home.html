@@ -4,13 +4,54 @@
 {{ block.super }}
   {# CSS for forms #}
   <link rel="stylesheet"
-        href="{{ STATIC_URL }}lizard_damage/form.css"
+        href="{{ STATIC_URL }}bowa/form.css"
         type="text/css"
         media="screen, projection" />
 {% endblock css %}
 
 {% block sidebar %}
-Sidebar
+Downloads
+<ul>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/data/grondgebruik.zip">Voorbeeld grondgebruik kaart (zip).</a>
+  </li>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/data/foutenmatrix.zip">Voorbeeld foutenmatrix (zip).</a>
+  </li>
+</ul>
+Help
+<ul>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/help/gebruikers handleiding.pdf" target="_blank">Gebruikershandleiding</a>
+  </li>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/help/invoer grondgebruik.pdf" target="_blank">Invoer grondgebruik</a>
+  </li>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/help/invoer maaiveldhoogte.pdf" target="_blank">Invoer maaiveldhoogte</a>
+  </li>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/help/invoer normering.pdf" target="_blank">Invoer normering</a>
+  </li>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/help/invoer waterstanden.pdf" target="_blank">Invoer waterstanden</a>
+  </li>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/help/berekenen.pdf" target="_blank">Berekenen</a>
+  </li>
+  <li>
+    <a href="{{ STATIC_URL }}bowa/help/uitvoerresultaten.pdf" target="_blank">Uitvoer resultaten</a>
+  </li>
+</ul>
+  <div>
+    <img src="{{ STATIC_URL }}bowa/bowa.png" style="margin-top: 10px;width: 60px;">
+  </div>
+  <div>
+    {{ view.version }}
+  </div>
+  <div>
+    Voor vragen en/of opmerkingen kunt u ons mailen: <a href="mailto:servicedesk@nelen-schuurmans.nl">servicedesk@nelen-schuurmans.nl</a>
+  </div>
 {% endblock %}
 
 {% block content %}
@@ -31,6 +72,7 @@ Sidebar
 {% endfor %}
 
 
-<input type="submit" value="Versturen" class="btn btn-primary">
+<input class="btn btn-primary" type="submit" value="Versturen"/>
+
 </form>
 {% endblock %}

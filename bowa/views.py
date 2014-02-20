@@ -15,6 +15,7 @@ from lizard_ui.views import UiView
 
 from bowa import forms
 from bowa import models
+from bowa import tools
 
 
 class HomeView(UiView):
@@ -37,6 +38,9 @@ class HomeView(UiView):
 
         return HttpResponseRedirect(scenario.get_absolute_url())
 
+    def version(self):
+        return tools.version()
+
 
 class BowaScenarioResult(UiView):
     template_name = "bowa/result.html"
@@ -48,3 +52,4 @@ class BowaScenarioResult(UiView):
             raise Http404()
 
         return super(BowaScenarioResult, self).get(request)
+
