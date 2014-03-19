@@ -105,7 +105,7 @@ class BowaScenario(models.Model):
 
         self.save()
 
-    def run_r(self):
+    def run_r(self, logger):
         cmd = ("R CMD BATCH --no-save --no-restore '--args {workdir} {nsim} {ahdev} {htdev} {rho}' {r_script}"
             .format(
                 workdir=self.workdir(), nsim=self.nsim, ahdev=self.ahdev, htdev=self.htdev, rho=self.rho,

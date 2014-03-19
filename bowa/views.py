@@ -73,9 +73,11 @@ class BowaScenarioResultMap(BowaScenarioResult):
     template_name = "bowa/result_map.html"
     active_menu = "map"
 
+
 class BowaScenarioResultGraph(BowaScenarioResult):
     template_name = "bowa/result_graph.html"
     active_menu = "graph"
+
 
 class Disclaimer(ViewContextMixin, TemplateView):
     template_name = 'bowa/disclaimer.html'
