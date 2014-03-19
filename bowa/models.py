@@ -27,8 +27,8 @@ FIXED_FILENAMES = {
     'lg': 'lg.asc',
     'ah': 'ah.asc',
     'te': 'te.asc',
-    'err_matrix': 'err_matrix.txt',
-    'normen': 'norment.txt',
+    'fouten': 'foutenmatrix.txt',
+    'normen': 'normen.txt',
 }
 
 class BowaScenario(models.Model):
@@ -47,7 +47,7 @@ class BowaScenario(models.Model):
     lg = models.FilePathField(null=True, blank=True)
     ah = models.FilePathField(null=True, blank=True)
     te = models.FilePathField(null=True, blank=True)
-    err_matrix = models.FilePathField(null=True, blank=True)
+    fouten = models.FilePathField(null=True, blank=True)
     normen = models.FilePathField(null=True, blank=True)
 
     ahdev = models.FloatField(null=True, blank=True)

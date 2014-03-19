@@ -74,12 +74,12 @@ class ScenarioForm(forms.Form):
         required=True,
         help_text="Landgebruik en open water")
 
-    lg_excel = forms.FileField(
-        label="Koppel excel bestand",
+    normen = forms.FileField(
+        label="Normen bestand",
         required=True,
-        help_text="Excel bestand waarin de koppeling wordt beschreven.")
+        help_text="Normen bestand waarin de normen worden beschreven.")
 
-    err_matrix = forms.FileField(
+    fouten = forms.FileField(
         label="Fouten matrix",
         required=True,
         help_text="Foutenmatrix behorende bij de grondgebruik kaart")
@@ -204,11 +204,11 @@ class ScenarioForm(forms.Form):
     def clean_lg(self):
         return self.save_raster('lg')
 
-    def clean_lg_excel(self):
-        return self.save_file('lg_excel')
+    def clean_normen(self):
+        return self.save_file('normen')
 
-    def clean_err_matrix(self):
-        return self.save_file('err_matrix')
+    def clean_fouten(self):
+        return self.save_file('fouten')
 
     def clean_ah(self):
         return self.save_raster('ah')
