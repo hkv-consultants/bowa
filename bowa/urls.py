@@ -38,6 +38,11 @@ urlpatterns = patterns(
         views.BowaScenarioResultGraph.as_view(),
         name='bowa_result_graph'
     ),
+    url(
+        r'^result/(?P<slug>[^/]*)/graph/image/$',
+        views.result_graph_image,
+        name='bowa_result_graph_image'
+    ),
 )
 
 urlpatterns += debugmode_urlpatterns()

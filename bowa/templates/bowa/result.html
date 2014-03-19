@@ -26,25 +26,30 @@ Resultaat
 	<h1>Resultaten - Tabel</h1>
 	<div class="row well" >
 		<table class="table table-striped">
-			{% for row in view.result.csv_of_result_file %}
-				{% if forloop.counter == 1 %}
-					<thead>
-						<tr>
-							{% for column in row %}
-								<th>{{ column }}</th>
-							{% endfor %}
-						</tr>
-					</thead>
-					<tbody>
-				{% else %}
-						<tr>
-							{% for column in row %}
-								<td>{{ column }}</td>
-							{% endfor %}
-						</tr>
-				{% endif %}
-			{% endfor %}
-			</tbody>
+		  <thead>
+		    <tr>
+		      <th>Trekking</th>
+		      <th>Toetseenheid</th>
+		      <th>Grondgebruik</th>
+		      <th>Toetshoogte</th>
+		      <th>Volume</th>
+		      <th>Oppervlakte</th>
+		      <th>Percentage</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for row in view.result.resultline_set.all %}
+		    <tr>
+		      <td>{{ row.sim }}</td>
+		      <td>{{ row.toetseenheid }}</td>
+		      <td>{{ row.functie }}</td>
+		      <td>{{ row.toetshoogte }}</td>
+		      <td>{{ row.volume }}</td>
+		      <td>{{ row.oppervlakte }}</td>
+		      <td>{{ row.percentage }}</td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
 		</table>
 	</div>
 </div>

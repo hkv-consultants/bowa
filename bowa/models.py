@@ -106,13 +106,16 @@ class BowaScenario(models.Model):
         self.save()
 
     def run_r(self, logger):
-        cmd = ("R CMD BATCH --no-save --no-restore '--args {workdir} {nsim} {ahdev} {htdev} {rho}' {r_script}"
+	
+	cmd = ("R --vanilla --slave --args  {workdir}  {fouten} {normen} {nsim} {ahdev} {htdev} {rho} < {r_script}"
             .format(
-                workdir=self.workdir(), nsim=self.nsim, ahdev=self.ahdev, htdev=self.htdev, rho=self.rho,
-                r_script="/vagrant/linux_sources/downloads/test/bowa.r"
+                workdir=self.workdir(), fouten=FIXED_FILENAMES['fouten'], normen=FIXED_FILENAMES['normen'], 
+                nsim=self.nsim, ahdev=self.ahdev, htdev=self.htdev, rho=self.rho,
+                r_script=os.path.join(os.path.dirname(__file__), 'r', 'simulatie.R')
             ))
         logger.debug("Running {}".format(cmd))
         os.system(cmd)
+        ResultLine.from_csv(self.csv_of_result_file(), self)
 
     def csv_of_result_file(self):
         result = os.path.join(self.workdir(), 'resultaat.txt')
@@ -123,37 +126,50 @@ class BowaScenario(models.Model):
             return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
 
     def list_of_toetseenheden(self):
-	# sql <- "SELECT toetseenheid from resultaat WHERE percentage > 0"
-        result = os.path.join(self.workdir(), 'resultaat.db')
-        if not os.path.exists(result):
-            return ''
-        else:
-            # Open the database
-            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
+        return sorted(
+            value['toetseenheid'] for value in
+            self.resultline_set.all().values('toetseenheid').distinct()
+            )
 
     def list_of_grondgebruiken(self):
-        result = os.path.join(self.workdir(), 'resultaat.db')
-        if not os.path.exists(result):
-            return ''
-        else:
-            # Open the database
-            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
-
-    def list_of_normfuncties(self):
-        result = os.path.join(self.workdir(), 'resultaat.db')
-        if not os.path.exists(result):
-            return ''
-        else:
-            # Open the database
-            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
-
-    def list_of_presentaties(self):
-        result = os.path.join(self.workdir(), 'resultaat.db')
-        if not os.path.exists(result):
-            return ''
-        else:
-            # Open the database
-            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
-
+        return sorted(
+            value['functie'] for value in
+            self.resultline_set.all().values('functie').distinct()
+            )
+ 
     def __unicode__(self):
         return self.name
+
+
+class ResultLine(models.Model):
+    scenario = models.ForeignKey(BowaScenario)
+
+    sim = models.IntegerField()
+    toetseenheid = models.IntegerField()
+    functie = models.CharField(max_length=50)
+    toetshoogte = models.FloatField()
+    volume = models.FloatField()
+    oppervlakte = models.FloatField()
+    percentage = models.FloatField()
+
+    @classmethod
+    def from_csv(cls, csv_list, scenario):
+        # Throw away existing lines
+        scenario.resultline_set.all().delete()
+        
+        # Add new lines
+        for line in csv_list[1:]:
+            if len(line) == 6:
+                # MBW toetsing scenarios have no sim field,
+                # add one.
+                line = [0] + line
+
+            cls.objects.create(
+                scenario=scenario,
+                sim=int(line[0]),
+                toetseenheid=int(line[1]),
+                functie=line[2],
+                toetshoogte=float(line[3]),
+                volume=float(line[4]),
+                oppervlakte=float(line[5]),
+                percentage=float(line[6]))
