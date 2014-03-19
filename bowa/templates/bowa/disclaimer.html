@@ -5,13 +5,15 @@
 <div style="width: 800px; margin-left: auto; margin-right: auto;">
 
 <img src="{{ STATIC_URL }}lizard_damage/stowa_logo.png" style="margin-top: 20px;">
-<h3>BOWA</h3>
+<h1>BOWA</h1>
 <h3>{{ view.version }}</h3>
 <div style="background: #b0b0b0; border: solid 1px #909090; color: #000; border-radius: 5px; margin-bottom: 20px; margin-top: 10px; padding: 15px;">
 <h3>DISCLAIMER</h3>
-
-Deze WaterSchadeSchatter (WSS) is ontwikkeld door de STOWA voor het op een
-consistente en reproduceerbare wijze berekenen van schade door wateroverlast. De WSS is bedoeld voor een beleidsmatige afweging van maatregelen voor het voorkomen van schade door wateroverlast. De bedragen en functies zijn in nauw overleg met diverse waterschappen en experts geschat voor een gemiddelde Nederlandse situatie met als prijspeil 2010. De WSS is niet geschikt voor het ex ante bepalen van de schade bij een wateroverlastgebeurtenis voor bijvoorbeeld een schaderegeling.
+<p>Dit is de applicatie BOWA (Bereken Onzekerheid Wateropgave). </p>
+<p>Met BOWA kunt u de wateropgave berekenen voor een toetseenheid (een gebied met een eindig oppervlak zoals een peilgebied of een polder) en toetsen of deze voldoet aan de normen voor regionaal wateroverlast volgens het NWB (Nationaal Bestuursakkoord Water). De wateropgave is hierbij gedefinieerd als de hoeveelheid water die moet worden afgevoerd, geborgen dan wel worden vastgehouden om een toetseenheid te laten voldoen aan de normen.
+In de berekening van de wateropgave komen echter verschillende onzekerheden voor. Zo zijn maatgevende waterstanden onzeker. We bepalen deze maatgevende waterstanden door waterstanden in het verleden statistisch te analyseren of met een model te bereis kenen en op basis hiervan maken we een inschatting van de kans dat een bepaalde waterstand in de toekomst kan voorkomen. Fouten kunnen ook bewust en onbewust in de kaarten met bodemhoogtes en landgebruik zitten. Deze fouten ontstaan, onder andere, door het feit dat je maar een beperkte resolutie van het kaartmateriaal kunt behalen en door het feit dat je niet overal kunt meten. Als we de onzekerheid in de invoer kwantificeren, kunnen we met BOWA deze onzekerheid vertalen naar een onzekerheid in de wateropgave.
+Het doel van de applicatie BOWA is om de gebruiker te laten zien welke spreiding mogelijk aanwezig is in de wateropgave en om te kwantificeren wat de kans is op een grotere (of kleinere) wateropgave dan uit een standaard toetsing volgt.
+Ondanks dat feit dat BOWA met grote zorg is ontwikkeld en getest kunnen aan het gebruik van BOWA geen rechten worden ontleend. Het gebruik geschiedt geheel op eigen verantwoordelijkheid. HKV is op generlei wijze aansprakelijk voor de gevolgen van de door de BOWA gegenereerde uitkomsten en eventuele adviezen die daar uit voortvloeien.</p>
 </div>
 
 <a href="{% url bowa_homepage %}" style="display: block; background: #4e9caf; text-align: center; border-radius: 5px; color: white; font-weight: bold; padding: 5px;">akkoord en verder</a>

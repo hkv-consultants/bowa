@@ -11,41 +11,32 @@
 
 {% block sidebar %}
 
-{% block menu %}
-Downloads
-<ul>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/data/grondgebruik.zip">Voorbeeld grondgebruik kaart (zip).</a>
-  </li>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/data/foutenmatrix.zip">Voorbeeld foutenmatrix (zip).</a>
-  </li>
-</ul>
-Help
-<ul>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/help/gebruikers handleiding.pdf" target="_blank">Gebruikershandleiding</a>
-  </li>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/help/invoer grondgebruik.pdf" target="_blank">Invoer grondgebruik</a>
-  </li>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/help/invoer maaiveldhoogte.pdf" target="_blank">Invoer maaiveldhoogte</a>
-  </li>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/help/invoer normering.pdf" target="_blank">Invoer normering</a>
-  </li>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/help/invoer waterstanden.pdf" target="_blank">Invoer waterstanden</a>
-  </li>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/help/berekenen.pdf" target="_blank">Berekenen</a>
-  </li>
-  <li>
-    <a href="{{ STATIC_URL }}bowa/help/uitvoerresultaten.pdf" target="_blank">Uitvoer resultaten</a>
-  </li>
-</ul>
-{% endblock menu %}
+	{% block menu %}
+	Downloads
+	<ul>
+	  <li>
+		<a href="{{ STATIC_URL }}bowa/data/grondgebruik.zip">Voorbeeld grondgebruik kaart (zip).</a>
+	  </li>
+	  <li>
+		<a href="{{ STATIC_URL }}bowa/data/koppeling.zip">Voorbeeld Excel koppeling (zip).</a>
+	  </li>
+	  <li>
+		<a href="{{ STATIC_URL }}bowa/data/foutenmatrix.zip">Voorbeeld foutenmatrix (zip).</a>
+	  </li>
+	</ul>
+	Help
+	<ul>
+	  <li>
+		<a href="{{ STATIC_URL }}bowa/help/gebruikers handleiding.pdf" target="_blank">Gebruikershandleiding</a>
+	  </li>
+	  <li>
+		<a href="{{ STATIC_URL }}bowa/help/invoer.pdf" target="_blank">Invoer</a>
+	  </li>
+	  <li>
+		<a href="{{ STATIC_URL }}bowa/help/uitvoer.pdf" target="_blank">Uitvoer resultaten</a>
+	  </li>
+	</ul>
+	{% endblock menu %}
   <div>
     <img src="{{ STATIC_URL }}bowa/bowa.png" style="margin-top: 10px;width: 60px;">
   </div>
@@ -53,12 +44,12 @@ Help
     {{ view.version }}
   </div>
   <div>
-    Voor vragen en/of opmerkingen kunt u ons mailen: <a href="mailto:helpdesk@hkv.nl">helpdesk@hkv.nl</a>
+    Voor vragen en/of opmerkingen kunt u ons mailen: <a href="mailto:helpdesk@hkv.nl?subject=Bowa">helpdesk@hkv.nl</a>
   </div>
 {% endblock %}
 
 {% block content %}
-
+<div class="container">
 <form action="{% url bowa_homepage %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
     {% for field in view.scenario_form %}
@@ -78,4 +69,6 @@ Help
 <input class="btn btn-primary" type="submit" value="Versturen"/>
 
 </form>
+
+</div>
 {% endblock %}

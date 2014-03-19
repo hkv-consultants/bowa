@@ -10,6 +10,7 @@ import random
 import shutil
 import string
 import zipfile
+import csv
 
 from django.db import models
 from django.conf import settings
@@ -19,6 +20,15 @@ logger = logging.getLogger(__name__)
 
 FIXED_FILENAMES = {
     'ht10': 'ht010.asc',
+    'ht25': 'ht025.asc',
+    'ht50': 'ht050.asc',
+    'ht100': 'ht100.asc',
+    'pg': 'pg.asc',
+    'lg': 'lg.asc',
+    'ah': 'ah.asc',
+    'te': 'te.asc',
+    'err_matrix': 'err_matrix.txt',
+    'normen': 'norment.txt',
 }
 
 class BowaScenario(models.Model):
@@ -35,10 +45,10 @@ class BowaScenario(models.Model):
     ht100 = models.FilePathField(null=True, blank=True)
     pg = models.FilePathField(null=True, blank=True)
     lg = models.FilePathField(null=True, blank=True)
-    lg_excel = models.FilePathField(null=True, blank=True)
     ah = models.FilePathField(null=True, blank=True)
     te = models.FilePathField(null=True, blank=True)
     err_matrix = models.FilePathField(null=True, blank=True)
+    normen = models.FilePathField(null=True, blank=True)
 
     ahdev = models.FloatField(null=True, blank=True)
     htdev = models.FloatField(null=True, blank=True)
@@ -104,12 +114,46 @@ class BowaScenario(models.Model):
         logger.debug("Running {}".format(cmd))
         os.system(cmd)
 
-    def text_of_result_file(self):
+    def csv_of_result_file(self):
         result = os.path.join(self.workdir(), 'resultaat.txt')
         if not os.path.exists(result):
             return ''
         else:
-            return open(result).read()
+            # Open the CSV file for reading
+            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
+
+    def list_of_toetseenheden(self):
+	# sql <- "SELECT toetseenheid from resultaat WHERE percentage > 0"
+        result = os.path.join(self.workdir(), 'resultaat.db')
+        if not os.path.exists(result):
+            return ''
+        else:
+            # Open the database
+            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
+
+    def list_of_grondgebruiken(self):
+        result = os.path.join(self.workdir(), 'resultaat.db')
+        if not os.path.exists(result):
+            return ''
+        else:
+            # Open the database
+            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
+
+    def list_of_normfuncties(self):
+        result = os.path.join(self.workdir(), 'resultaat.db')
+        if not os.path.exists(result):
+            return ''
+        else:
+            # Open the database
+            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
+
+    def list_of_presentaties(self):
+        result = os.path.join(self.workdir(), 'resultaat.db')
+        if not os.path.exists(result):
+            return ''
+        else:
+            # Open the database
+            return list(csv.reader(open(result, 'rb'), delimiter=b'\t'))
 
     def __unicode__(self):
         return self.name

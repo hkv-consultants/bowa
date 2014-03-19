@@ -89,11 +89,6 @@ class ScenarioForm(forms.Form):
         required=True,
         help_text="Maaiveldhoogte")
 
-    ahdev = forms.FloatField(
-        label="Afwijking maaiveldhoogte",
-        required=True,
-        help_text="Niet negatieve waarde voor de afwijking in de maaiveldhoogte")
-
     te = forms.FileField(
         label="Normering rasterbestand",
         required=True,
@@ -124,15 +119,20 @@ class ScenarioForm(forms.Form):
         required=True,
         help_text="Maatgevende waterstanden met een herhalingstijd van 100 jaar")
 
-    htdev = forms.FloatField(
-        label="Afwijking waterhoogte",
-        required=True,
-        help_text="Niet negatieve waarde voor de afwijking in de waterhoogte")
-
     nsim = forms.IntegerField(
         label="Aantal simulaties",
         required=True,
         help_text="Hoeveel Monte Carlo simulatioes moeten er worden gemaakt")
+
+    ahdev = forms.FloatField(
+        label="Afwijking maaiveldhoogte",
+        required=True,
+        help_text="Niet negatieve waarde voor de afwijking in de maaiveldhoogte")
+
+    htdev = forms.FloatField(
+        label="Afwijking waterhoogte",
+        required=True,
+        help_text="Niet negatieve waarde voor de afwijking in de waterhoogte")
 
     scenario_type = forms.ChoiceField(
         label='Kies het type scenario',

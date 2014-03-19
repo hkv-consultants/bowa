@@ -24,22 +24,7 @@ form label input[type=radio]{
     margin-top: 5px;
 }
 
-.wizard-item-row {
-    clear: both;
-}
-
-.wizard-item-row li {
-    list-style:none;
-    display: block;
-    float: left;
-}
-
-.wizard-radio-select {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 .container {
-    padding-left: 50px;
+    padding-left: 10px;
     padding-top: 10px;
 }

@@ -10,6 +10,6 @@ def version():
     import bowa
     installed = Installed(bowa)
     if installed.version:
-        return 'Versie januari 2014 (%s)' % (installed.version)
+        return 'Versie maart 2014 (%s)' % (installed.version)
     else:
-        return 'Versie januari 2014'
+        return 'Versie maart 2014'
