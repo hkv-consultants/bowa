@@ -65,22 +65,6 @@ write.table(opgave$resultaat,
             quote = FALSE,
             row.names = FALSE)
 
-# doe hetzelfde, maar dan naar een SQLite database:
-library(RSQLite, warn.conflicts = FALSE, quietly = TRUE)
-
-resultaat.db <- file.path(WERKMAP, "resultaat.db")
-unlink(resultaat.db)
-
-drv <- dbDriver("SQLite")
-con <- dbConnect(drv, dbname = resultaat.db)
-succes <- dbWriteTable(con, "resultaat", opgave$resultaat)
-if (!succes) {
-    stop("er is probleem opgetreden bij het wegschrijven van het resultaat naar een SQLite database")
-} else {
-    succes <- dbDisconnect(con)
-    succes <- dbUnloadDriver(drv)
-}
-
 # maak een grafiek van de inundatiefractie:
 kaarten$inundatie <- opgave$inundatiekaart$inundatie
 r <- maak.raster(kaarten, "inundatie")

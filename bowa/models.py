@@ -107,12 +107,27 @@ class BowaScenario(models.Model):
 
     def run_r(self, logger):
 	
-	cmd = ("R --vanilla --slave --args  {workdir}  {fouten} {normen} {nsim} {ahdev} {htdev} {rho} < {r_script}"
-            .format(
-                workdir=self.workdir(), fouten=FIXED_FILENAMES['fouten'], normen=FIXED_FILENAMES['normen'], 
-                nsim=self.nsim, ahdev=self.ahdev, htdev=self.htdev, rho=self.rho,
-                r_script=os.path.join(os.path.dirname(__file__), 'r', 'simulatie.R')
-            ))
+	if (self.scenario_type == 1):
+            cmd = ("R --vanilla --slave --args  {workdir}  {fouten} {normen} {nsim} {ahdev} {htdev} {rho} < {r_script}"
+                .format(
+                    workdir=self.workdir(), 
+                    fouten=FIXED_FILENAMES['fouten'],
+                    normen=FIXED_FILENAMES['normen'], 
+                    nsim=self.nsim,
+                    ahdev=self.ahdev, 
+                    htdev=self.htdev,
+                    rho=self.rho,
+                    r_script=os.path.join(os.path.dirname(__file__), 'r', 'simulatie.R')
+                ))
+	else:
+            cmd = ("R --vanilla --slave --args  {workdir}  {fouten} {normen} < {r_script}"
+                .format(
+                    workdir=self.workdir(),
+                    fouten=FIXED_FILENAMES['fouten'], 
+                    normen=FIXED_FILENAMES['normen'], 
+                    r_script=os.path.join(os.path.dirname(__file__), 'r', 'nbw_toetsing.R')
+                ))
+
         logger.debug("Running {}".format(cmd))
         os.system(cmd)
         ResultLine.from_csv(self.csv_of_result_file(), self)
@@ -128,13 +143,13 @@ class BowaScenario(models.Model):
     def list_of_toetseenheden(self):
         return sorted(
             value['toetseenheid'] for value in
-            self.resultline_set.all().values('toetseenheid').distinct()
+            self.resultline_set.filter(percentage__gt=0).values('toetseenheid').distinct()
             )
 
     def list_of_grondgebruiken(self):
         return sorted(
             value['functie'] for value in
-            self.resultline_set.all().values('functie').distinct()
+            self.resultline_set.filter(percentage__gt=0).values('functie').distinct()
             )
  
     def __unicode__(self):

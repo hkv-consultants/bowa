@@ -43,6 +43,11 @@ urlpatterns = patterns(
         views.result_graph_image,
         name='bowa_result_graph_image'
     ),
+    url(
+        r'^result/(?P<slug>[^/]*)/map/image/$',
+        views.result_map_image,
+        name='bowa_result_map_image'
+    ),
 )
 
 urlpatterns += debugmode_urlpatterns()

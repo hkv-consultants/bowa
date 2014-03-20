@@ -13,7 +13,9 @@ import logging
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
+import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.mlab as mlab
 
 from django.views.generic import TemplateView
 from django.http import Http404
@@ -109,47 +111,50 @@ def result_graph_image(request, slug):
 
     logger.debug('Toetseenheid : ' + toetseenheid)
     logger.debug('Grondgebruik : ' + grondgebruik)
-    logger.debug('Normfuntie : ' + normfuntie)
+    logger.debug('Normfunctie : ' + normfunctie)
 
     # Result lines
     wateropgave = scenario.resultline_set.filter(
         toetseenheid=toetseenheid,
-        grondgebruik=grondgebruik,
+        functie=grondgebruik,
         percentage__gt=0)
 
-    # Maak matplotlib grafiek
-    titel = 'Toetseenheid ' + toetseenheid + ':' + grondgebruik
-    logger.debug('Titel : ' + titel)
+    data = wateropgave.values(normfunctie)
 
-    mu, sigma = 100, 15
-    x = mu + sigma * np.random.randn(10000)
+    logger.debug('wateropgave : ' + str(len(data)))
+    titel = 'Toetseenheid ' + toetseenheid + ':' + grondgebruik
 
     fig = plt.figure()
-    ax = fig.add_subplot(111)
+    ax = fig.add_subplot(1,1,1,axisbg='white')
 
-    # the histogram of the data
-    n, bins, patches = ax.hist(x, 50, normed=1, facecolor='green', alpha=0.75)
+    x = np.random.normal(0,1,1000)
+    numbins = 50
+    ax.hist(x,numbins,color='green',alpha=0.8) 
 
-    # hist uses np.histogram under the hood to create 'n' and 'bins'.
-    # np.histogram returns the bin edges, so there will be 50 probability
-    # density values in n, 51 bin edges in bins and 50 patches.  To get
-    # everything lined up, we'll compute the bin centers
-    bincenters = 0.5*(bins[1:]+bins[:-1])
-    # add a 'best fit' line for the normal PDF
-    y = mlab.normpdf( bincenters, mu, sigma)
-    l = ax.plot(bincenters, y, 'r--', linewidth=1)
-
-    ax.set_xlabel('Smarts')
-    ax.set_ylabel('Probability')
-    #ax.set_title(r'$\mathrm{Histogram\ of\ IQ:}\ \mu=100,\ \sigma=15$')
-    ax.set_xlim(40, 160)
-    ax.set_ylim(0, 0.03)
-    ax.grid(True)
-
-    plt.show()
+    ax.set_xlabel(normfunctie)
+    ax.set_ylabel('Aantal simulaties [-]')
+    ax.set_title(titel)
 
     canvas = FigureCanvas(fig)
 
     response = HttpResponse(content_type='image/png')
     canvas.print_png(response)
+    return response
+
+
+def result_map_image(request, slug):
+    try:
+        scenario = models.BowaScenario.objects.get(slug=slug)
+    except models.BowaScenario.DoesNotExist:
+        raise Http404()
+
+    presentatie = request.GET.get('presentatie')
+    grondgebruik = request.GET.get('grondgebruik')
+    normfunctie = request.GET.get('normfunctie')
+
+    logger.debug('Presentatie : ' + presentatie)
+    logger.debug('Grondgebruik : ' + grondgebruik)
+    logger.debug('Normfunctie : ' + normfunctie)
+
+    response = HttpResponse(content_type='image/png')
     return response

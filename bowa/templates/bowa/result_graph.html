@@ -6,7 +6,7 @@
 
   var toetseenheid = $('#toetseenheid>option:selected').text();
   var grondgebruik = $('#grondgebruik>option:selected').text();
-  var normfunctie =  $('#normfunctie>option:selected').text();
+  var normfunctie =  $('#normfunctie>option:selected').val();
 
   set_image_url(toetseenheid, grondgebruik, normfunctie);
 
@@ -28,10 +28,11 @@
   function set_image_url(toetseenheid, grondgebruik, normfunctie) {
     var base_image_url = "{% url bowa_result_graph_image slug=view.result.slug %}";
 
-    var image_url = base_image_url + "&toetseenheid=" + toetseenheid + "&grondgebruik=" + grondgebruik + "&normfuntie=" + normfunctie;
-    console.log("image_url = " + image_url);
+    var image_url = base_image_url + "?toetseenheid=" + toetseenheid + "&grondgebruik=" + grondgebruik + "&normfunctie=" + normfunctie;
 
-    $("#imageDiv").attr("src", image_url);
+    var imagediv = document.getElementById("imageDiv");
+    imagediv.src = image_url;
+
   }
 
 
@@ -39,39 +40,41 @@
 {% endblock javascript %}
 
 {% block content %}
-  <div class="container">
+<div class="container">
     <h1>Resultaten - Grafiek</h1>
     <div class="row well">
-	<div class="span3">
-		<div class="control-group">
-			<label class="control-label" for="toetseenheid">Toetseenheid</label>
-			<select id="toetseenheid">
-	    			{% for row in view.result.list_of_toetseenheden %}
-	      			<option>{{ row }}</option>
-	    			{% endfor %}
-		 	</select> 
+		<div class="span3">
+			<div class="control-group">
+				<label class="control-label" for="toetseenheid">Toetseenheid</label>
+				<select id="toetseenheid">
+					{% for row in view.result.list_of_toetseenheden %}
+						<option>{{ row }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="grondgebruik">Grondgebruik</label>
+				<select id="grondgebruik">
+					{% for row in view.result.list_of_grondgebruiken %}
+						<option>{{ row }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="normfunctie">Normfunctie</label>
+				<select id="normfunctie">
+					 <option value="toetshoogte">Toetshoogte [m+NAP]</option>
+					 <option value="volume">Volume [m**3]</option>
+					 <option value="oppervlakte">Oppervlakte [m**2]</option>
+					 <option value="percentage">Percentage [%]</option>
+				</select>
+			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label" for="grondgebruik">Grondgebruik</label>
-			<select id="grondgebruik">
-			 	{% for row in view.result.list_of_grondgebruiken %}
-	      			<option>{{ row }}</option>
-				  {% endfor %}
-		 	</select> 
+		<div class="span1">
 		</div>
-		<div class="control-group">
-			<label class="control-label" for="normfunctie">Normfunctie</label>
-			<select id="normfunctie">
-				 <option>Toetshoogte</option>
-				 <option>Volume</option>
-				 <option>Oppervlakte</option>
-				 <option>Percentage</option>
-		 	</select> 
+		<div class="span7">
+		  <img id="imageDiv" />
 		</div>
-	</div>
-	<div class="span9">
-	  <img id="ImageDiv" width="300px" height="300px" style="background-color:gray"  />
-	</div>
     </div>
-  </div>
+</div>
 {% endblock content %}
