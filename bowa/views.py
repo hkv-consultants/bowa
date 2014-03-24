@@ -119,19 +119,26 @@ def result_graph_image(request, slug):
         functie=grondgebruik,
         percentage__gt=0)
 
-    data = wateropgave.values(normfunctie)
-
-    logger.debug('wateropgave : ' + str(len(data)))
-    titel = 'Toetseenheid ' + toetseenheid + ':' + grondgebruik
+    data = list(wateropgave.values_list(normfunctie, flat=True))
 
     fig = plt.figure()
-    ax = fig.add_subplot(1,1,1,axisbg='white')
+    ax = fig.add_subplot(111)
 
-    x = np.random.normal(0,1,1000)
-    numbins = 50
-    ax.hist(x,numbins,color='green',alpha=0.8) 
+    numBins = 10
+    ax.hist(data,numBins,color='blue',alpha=0.8)
 
-    ax.set_xlabel(normfunctie)
+    titel = 'Toetseenheid ' + toetseenheid + ':' + grondgebruik
+
+    if normfunctie == 'toetshoogte':
+       xlabel = 'Toetshoogte [m+NAP]'
+    elif normfunctie == 'oppervlakte':
+       xlabel = 'Oppervlakte [m**2]'
+    elif normfunctie == 'volume':
+       xlabel = 'Volume [m**3]'
+    elif normfunctie == 'percentage':
+       xlabel = 'Percentage [%]'
+
+    ax.set_xlabel(xlabel)
     ax.set_ylabel('Aantal simulaties [-]')
     ax.set_title(titel)
 

@@ -66,6 +66,7 @@ write.table(opgave$resultaat,
             row.names = FALSE)
 
 # maak een grafiek van de inundatiefractie:
+message("Maak grafiek van de inundatiefractie")
 kaarten$inundatie <- opgave$inundatiekaart$inundatie
 r <- maak.raster(kaarten, "inundatie")
 
@@ -78,8 +79,10 @@ tryCatch(png(file = file.path(WERKMAP, "inundatiekaart.png"),
          error = function(e) succes <<- FALSE,
          warn = function(w) succes <<- FALSE,
          finally = {
-             if (!succes) warning("kon geen PNG figuur maken van de inundatiefractie")
-         }
+             if (!succes) {
+		 warning("kon geen PNG figuur maken van de inundatiefractie")
+		}
+             }
          )
 
 message("einde simulatie")
