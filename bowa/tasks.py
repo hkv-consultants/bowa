@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 import sys
@@ -8,6 +9,7 @@ from lizard_task.models import SecuredPeriodicTask
 from lizard_task.task import task_logging
 
 from bowa import models
+from bowa import emails
 
 
 def create_task_for(scenario, username="admin"):
@@ -34,10 +36,23 @@ def run_scenario(scenario_id, task_name, username):
     logger = logging.getLogger(task_name)
     logger.info("calculate damage")
 
+    start_dt = datetime.datetime.now()
     try:
         scenario = models.BowaScenario.objects.get(pk=scenario_id)
         scenario.run_r(logger)
+        emails.send_success_mail(scenario, "admin", logger, start_dt)
     except:
         exc_info = sys.exc_info()
         traceback.print_exception(*exc_info, limit=None)
+        emails.send_error_mail(scenario, "admin", logger, start_dt)
         return 'failure'
+
+
+@task
+@task_logging
+def send_email(scenario_id, username=None, taskname=None, loglevel=20,
+               mail_template='email_received', subject='Onderwerp', email='',
+               extra_context={}):
+    return emails.do_send_email(
+        scenario_id, username, taskname, loglevel,
+        mail_template, subject, email, extra_context)
