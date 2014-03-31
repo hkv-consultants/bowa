@@ -78,7 +78,7 @@ class BowaScenario(models.Model):
 
     def workdir(self):
         return os.path.join(
-            settings.BUILDOUT_DIR, 'var', 'bowa', str(self.id))
+            settings.BUILDOUT_DIR, 'var', 'media', 'bowa', str(self.id))
 
     def move_files(self, metadata):
         """Function is called when the user has uploaded correct
