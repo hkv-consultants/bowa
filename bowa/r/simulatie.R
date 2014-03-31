@@ -22,7 +22,7 @@ htdev <- as.numeric(args[6])   # afwijking [m] in de waterstandskaarten
 rho   <- as.numeric(args[7])   # (rank) correlatie [-] tussen gebieden
 
 # ----- BEGIN SCRIPT (hieronder niets wijzigen) -----
-SetLogFile(file = "berekening.log", folder = WERKMAP)
+SetLogFile(base.file = "berekening.log", folder = WERKMAP)
 
 # laad de noodzakelijke pakketten in:
 library(bowa)

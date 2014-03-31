@@ -30,7 +30,7 @@ def send_email_to_task(
     """
     Create a task for sending email
     """
-    task_name = 'BOWA Scenario ({}) send mail {}'.format(
+    taskname = 'BOWA Scenario ({}) send mail {}'.format(
         scenario_id, mail_template)
     task_kwargs = (
         '{{'
@@ -42,11 +42,11 @@ def send_email_to_task(
         '"email": "{}", '
         '"extra_context": {} '
         '}}'
-        ).format(task_name, scenario_id, mail_template,
+        ).format(taskname, scenario_id, mail_template,
                  subject, email,
                  "{}" if not extra_context else json.dumps(extra_context))
     email_task, created = SecuredPeriodicTask.objects.get_or_create(
-        name=task_name, defaults={
+        name=taskname, defaults={
             'kwargs': task_kwargs,
             'task': 'bowa.tasks.send_email'}
         )
@@ -95,9 +95,6 @@ def do_send_email(
         subject, template_text.render(context), from_email, [to])
     msg.attach_alternative(template_html.render(context), 'text/html')
     msg.send()
-
-    scenario.status = scenario.SCENARIO_STATUS_SENT
-    scenario.save()
 
     logger.info("e-mail has been successfully sent")
 

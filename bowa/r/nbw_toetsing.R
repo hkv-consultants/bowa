@@ -18,7 +18,7 @@ FOUTENMATRIX <- args[2]        # naam van het bestand met de foutenmatrix
 NORMEN <- args[3]              # naam van het bestand met de normen voor regionaal wateroverlast
 
 # ----- BEGIN SCRIPT (hieronder niets wijzigen) -----
-SetLogFile(file = "berekening.log", folder = WERKMAP)
+SetLogFile(base.file = "berekening.log", folder = WERKMAP)
 
 # laad de noodzakelijke pakketten in:
 library(bowa)
