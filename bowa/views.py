@@ -29,6 +29,7 @@ from bowa import forms
 from bowa import models
 from bowa import tools
 from bowa import tasks
+from bowa import util
 
 logger = logging.getLogger(__name__)
 
@@ -56,9 +57,9 @@ class HomeView(UiView):
             nsim=self.scenario_form.cleaned_data['nsim'],
             scenario_type=self.scenario_form.cleaned_data['scenario_type'])
 
+        # This sets the other filepath fields
         scenario.move_files(self.scenario_form.metadata)
         self.scenario_form.remove_tempdir()
-
 
 	tasks.create_task_for(scenario)
 
@@ -149,19 +150,32 @@ def result_graph_image(request, slug):
     return response
 
 
-def result_map_image(request, slug):
-    try:
-        scenario = models.BowaScenario.objects.get(slug=slug)
-    except models.BowaScenario.DoesNotExist:
-        raise Http404()
+class ResultKML(ViewContextMixin, TemplateView):
+    template_name = 'bowa/resultaat.kml'
 
-    presentatie = request.GET.get('presentatie')
-    grondgebruik = request.GET.get('grondgebruik')
-    normfunctie = request.GET.get('normfunctie')
+    def get(self, request, slug):
+        try:
+            self.scenario = models.BowaScenario.objects.get(slug=slug)
+        except models.BowaScenario.DoesNotExist:
+            raise Http404()
 
-    logger.debug('Presentatie : ' + presentatie)
-    logger.debug('Grondgebruik : ' + grondgebruik)
-    logger.debug('Normfunctie : ' + normfunctie)
+        return super(ResultKML, self).get(request)
 
-    response = HttpResponse(content_type='image/png')
-    return response
+    def result_description(self):
+        return self.scenario.name
+
+    def result_name(self):
+        return self.scenario.name
+
+    def result_image_url(self):
+        return "http://www.endo-vision.com/resources/BOWA%20orange%20auf%20schwarz%20100x100komp.jpg"
+
+    def result_extent(self):
+        dataset = util.gdal_open(self.scenario.lg)
+        shape = dataset.RasterXSize, dataset.RasterYSize
+        geotransform = dataset.GetGeoTransform()
+
+        return util.google_extent_from_geotransform(
+            shape, geotransform)
+
+        

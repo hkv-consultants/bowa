@@ -7,7 +7,7 @@ import tempfile
 from bowa.models import BowaScenario
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
-
+from bowa.util import gdal_open
 
 logger = logging.getLogger(__name__)
 
@@ -162,14 +162,6 @@ class ScenarioForm(forms.Form):
                 f.write(chunk)
         return filename
 
-    def gdal_open(self, path):
-        if path.lower().endswith('.zip'):
-            path = str('/vsizip/' + path)
-        else:
-            path = str(path)
-
-        return gdal.Open(path)
-
     def save_file(self, fieldname):
         path = self.save_to_temp_directory(fieldname)
 
@@ -185,7 +177,7 @@ class ScenarioForm(forms.Form):
         self.save_file(fieldname)
         path = self.metadata[fieldname]['path']
 
-        dataset = self.gdal_open(path)
+        dataset = gdal_open(path)
 
         if dataset is None:
             self.add_field_error(fieldname, 'Kan rasterbestand niet openen')

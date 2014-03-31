@@ -44,9 +44,9 @@ urlpatterns = patterns(
         name='bowa_result_graph_image'
     ),
     url(
-        r'^result/(?P<slug>[^/]*)/map/image/$',
-        views.result_map_image,
-        name='bowa_result_map_image'
+        r'^result/(?P<slug>[^/]*)/kml/$',
+        views.ResultKML.as_view(),
+        name='bowa_result_kml'
     ),
 )
 

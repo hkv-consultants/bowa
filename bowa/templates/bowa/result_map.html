@@ -1,79 +1,9 @@
 {% extends "bowa/result.html" %}
 
-{% block javascript %}
-  {{ block.super }}
-<script>
-
-  var toetseenheid = $('#toetseenheid>option:selected').text();
-  var grondgebruik = $('#grondgebruik>option:selected').text();
-  var normfunctie =  $('#normfunctie>option:selected').val();
-
-  set_image_url(toetseenheid, grondgebruik, normfunctie);
-
-  $("#presentatie").change(function() {
-    presentatie = $(this).val();
-    set_image_url(presentatie, grondgebruik, normfunctie);
-  });
-
-  $("#grondgebruik").change(function() {
-    grondgebruik = $(this).val();
-    set_image_url(presentatie, grondgebruik, normfunctie);
-  });
-
-  $("#normfunctie").change(function() {
-    normfunctie = $(this).val();
-    set_image_url(presentatie, grondgebruik, normfunctie);
-  });
-
-  function set_image_url(presentatie, grondgebruik, normfunctie) {
-    var base_image_url = "{% url bowa_result_graph_image slug=view.result.slug %}";
-
-    var image_url = base_image_url + "?presentatie=" + presentatie + "&grondgebruik=" + grondgebruik + "&normfuntie=" + normfunctie;
-    console.log("image_url = " + image_url);
-
-    $("#imageDiv").attr("src", image_url);
-  }
-
-
-</script>
-{% endblock javascript %}
-
 {% block content %}
 <div class="container">
     <h1>Resultaten - Kaart</h1>
-    <div class="row well">
-		<div class="span3">
-			<div class="control-group">
-				<label class="control-label" for="presentatie">Presentatie</label>
-				<select id="presentatie">
-					 <option value="peilgebieden">Peilgebieden</option>
-					 <option value="toetseenheid">Toetseenheid</option>
-				</select>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="grondgebruik">Grondgebruik</label>
-				<select id="grondgebruik">
-					{% for row in view.result.list_of_grondgebruiken %}
-						<option>{{ row }}</option>
-					{% endfor %}
-				</select>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="normfunctie">Normfunctie</label>
-				<select id="normfunctie">
-					 <option value="toetshoogte">Toetshoogte [m+NAP]</option>
-					 <option value="volume">Volume [m**3]</option>
-					 <option value="oppervlakte">Oppervlakte [m**2]</option>
-					 <option value="percentage">Percentage [%]</option>
-				</select>
-			</div>
-		</div>
-		<div class="span1">
-		</div>
-		<div class="span7">
-			<iframe width="100%" height="100%" frameborder="1"></iframe>
-		</div>
-	</div>
+    <iframe src="http://maps.google.com/?q=http://test.schade.lizard.net{% url bowa_result_kml slug=view.result.slug %}&output=embed" width="100%" height="500">
+    </iframe>
 </div>
-
 {% endblock content %}

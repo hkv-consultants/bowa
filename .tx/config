@@ -1,8 +1,0 @@
-[main]
-host = https://translations.lizard.net
-type = PO
-
-[nens.bowa]
-file_filter = bowa/locale/<lang>/LC_MESSAGES/django.po
-source_file = bowa/locale/en/LC_MESSAGES/django.po
-source_lang = en
