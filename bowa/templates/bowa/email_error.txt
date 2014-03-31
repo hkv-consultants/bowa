@@ -1,0 +1,9 @@
+{# template for received notification txt#}
+L.S.,
+
+Het BOWA scenario "{{ scenario.name }}" is uitgerekend, maar er is iets fout gegaan tijdens de berekening.
+
+--
+waterschadeschatter.nl
+
+Dit is een automatisch gegenereerd bericht. Graag niet beantwoorden.

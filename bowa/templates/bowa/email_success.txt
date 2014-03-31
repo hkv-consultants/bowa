@@ -1,0 +1,11 @@
+{# template for received notification txt#}
+L.S.,
+
+Het BOWA scenario "{{ scenario.name }}" is uitgerekend. Klik onderstaande link om te resultaten te bekijken. <br/><br/>
+
+Resultaten "{{ scenario.name }}": {{ ROOT_URL }}{% url bowa_result slug=scenario.slug %}
+
+--
+waterschadeschatter.nl
+
+Dit is een automatisch gegenereerd bericht. Graag niet beantwoorden.
