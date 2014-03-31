@@ -1,0 +1,40 @@
+##########################################################################
+# Auteur:   Maarten-Jan Kallen <m.j.kallen@hkv.nl>
+# Datum:    2011-07-06
+# Inhoud:   Foutenmatrix voor simulatie van de LG-kaart. Voor elke code 
+#           staat de waarde in de kaart en de waarde in de werkelijkheid
+#           opgegeven. Vervolgens staat er een aantal bij die aangeeft
+#           hoe betrouwbaar de waarde in de kaart is. Lees deze gegevens
+#           in met het commando 'data(foutenmatrix)'.
+#           Let op: de gegevens moeten vanaf regel 15 in dit bestand
+#           beginnen!
+##########################################################################
+
+
+
+kaart, werkelijkheid, aantal
+1, 1, 90
+1, 2, 4
+1, 3, 3
+1, 4, 2
+1, 5, 1
+2, 1, 4
+2, 2, 90
+2, 3, 3
+2, 4, 2
+2, 5, 1
+3, 1, 2
+3, 2, 4
+3, 3, 90
+3, 4, 3
+3, 5, 1
+4, 1, 1
+4, 2, 3
+4, 3, 4
+4, 4, 90
+4, 5, 2
+5, 1, 1
+5, 2, 2
+5, 3, 3
+5, 4, 4
+5, 5, 90

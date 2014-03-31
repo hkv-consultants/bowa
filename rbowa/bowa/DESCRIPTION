@@ -1,0 +1,14 @@
+Package: bowa
+Type: Package
+Title: Bereken Onzekerheid WAteropgave
+Version: 0.4-1
+Depends: raster (>= 1.9-70), rgdal
+Date: 2014-03-11
+Author: HKV Lijn in Water B.V.
+Maintainer: Johan Ansink <ansink@hkv.nl>
+Description: Dit pakket bevat functies om de onzekerheid in de
+    wateropgave te bepalen. Deze tool is in opdracht van de Stichting
+    Toegepast Onderzoek Waterbeheer (STOWA) gemaakt door HKV Lijn in
+    water B.V. te Lelystad.
+License: BSD
+LazyLoad: yes

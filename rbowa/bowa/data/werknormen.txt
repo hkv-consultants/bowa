@@ -1,0 +1,14 @@
+##########################################################################
+# Auteur:   Maarten-Jan Kallen <m.j.kallen@hkv.nl>
+# Datum:    2011-06-20
+# Inhoud:   NBW werknormen voor toetsing van de wateropgave. Wijzig de
+#           namen van de kolommen niet en gebruik puntcomma's om de 
+#           kolommen uit elkaar te houden! Lees deze gegevens in met het 
+#           commando:
+#           'data(werknormen)'
+##########################################################################
+lg_code;functienaam;herhalingstijd;maaiveldcriterium
+1;grasland;10;0.05
+2;akkerbouw;25;0.01
+3;hoogwaardig;50;0.01
+4;stedelijk;100;0

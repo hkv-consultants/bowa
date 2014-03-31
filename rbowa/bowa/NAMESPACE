@@ -1,0 +1,5 @@
+export(calc.het,lees.kaarten,lees.foutenmatrix,lees.normen,
+	select.ht.ah,simuleer.ah,simuleer.copula,simuleer.ht,simuleer.lg,maak.raster,teken.kaart,wateropgave,
+    .het.matrix)
+
+useDynLib(bowa,calc_het,select_ht_ah,simuleer_lg)
