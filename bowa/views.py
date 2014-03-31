@@ -14,13 +14,13 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 
 from django.views.generic import TemplateView
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
+from django.contrib.sites.models import Site
 
 from lizard_ui.views import ViewContextMixin
 from lizard_ui.views import UiView
@@ -122,11 +122,12 @@ def result_graph_image(request, slug):
 
     data = list(wateropgave.values_list(normfunctie, flat=True))
 
-    fig = plt.figure()
+    fig = Figure()
     ax = fig.add_subplot(111)
 
     numBins = 10
-    ax.hist(data,numBins,color='blue',alpha=0.8)
+    if data:
+    	ax.hist(data,numBins,color='blue',alpha=0.8)
 
     titel = 'Toetseenheid ' + toetseenheid + ':' + grondgebruik
 
@@ -168,7 +169,12 @@ class ResultKML(ViewContextMixin, TemplateView):
         return self.scenario.name
 
     def result_image_url(self):
-        return "http://www.endo-vision.com/resources/BOWA%20orange%20auf%20schwarz%20100x100komp.jpg"
+        domain = Site.objects.all()[0].domain
+
+        url = "http://{}/media/bowa/{}/inundatiekaart.png".format(
+            domain, self.scenario.id)
+
+        return url
 
     def result_extent(self):
         dataset = util.gdal_open(self.scenario.lg)
