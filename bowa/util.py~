@@ -1,0 +1,14 @@
+def extent_geotransform(shape, geotransform):
+    ds = gdal.Open(filename)
+    width = ds.RasterXSize
+    height = ds.RasterYSize
+    gt = ds.GetGeoTransform()
+    minx = gt[0]
+    miny = gt[3] + width * gt[4] + height * gt[5]
+    maxx = gt[0] + width * gt[1] + height * gt[2]
+    maxy = gt[3]
+    return (minx, miny, maxx, maxy)
+
+
+def google_extent_from_geotransform(shape, rd_geotransform):
+    rd_extent = 

@@ -1,0 +1,5 @@
+LG_CODE;FUNCTIENAAM;HERHALINGSTIJD;MAAIVELDCRITERIUM
+1;grasland;10;0.05
+2;akkerbouw;25;0.01
+3;hoogwaardig;50;0.01
+4;stedelijk;100;0

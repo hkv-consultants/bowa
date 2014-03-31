@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Folder>
+    <name>BOWA</name>
+    <description>Resultaat {{ view.result_description }}
+    </description>
+    <GroundOverlay>
+      <name>{{ view.result_name }}</name>
+      <description>{{ view.result_description }}</description>
+      <Icon>
+        <href>{{ view.result_image_url }}</href>
+      </Icon>
+      <LatLonBox>
+        <north>{{ view.result_extent.north }}</north>
+        <south>{{ view.result_extent.south }}</south>
+        <east>{{ view.result_extent.east }}</east>
+        <west>{{ view.result_extent.west }}</west>
+        <rotation>0</rotation>
+      </LatLonBox>
+    </GroundOverlay>
+    {% if view.legend_url %}
+    <ScreenOverlay>
+      <name>Legenda</name>
+      <visibility>1</visibility>
+      <Icon>
+        <href>{{ view.legend_url }}</href>
+      </Icon>
+      <overlayXY x="1" y="-1" xunits="fraction" yunits="fraction"/>
+      <screenXY x="1" y="0" xunits="fraction" yunits="fraction"/>
+      <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+      <size x="0" y="0" xunits="fraction" yunits="fraction"/>
+    </ScreenOverlay>
+    {% endif %}
+  </Folder>
+</kml>

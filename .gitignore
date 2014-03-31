@@ -31,7 +31,6 @@ htmlcov
 
 #Mr Developer
 .mr.developer.cfg
-src
 
 # Ignore generated config files
 etc/*.nginx.conf
