@@ -12,9 +12,14 @@ import string
 import zipfile
 import csv
 
+import numpy as np
+import Image
+
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
+
+from . import util
 
 logger = logging.getLogger(__name__)
 
@@ -131,6 +136,31 @@ class BowaScenario(models.Model):
         logger.debug("Running {}".format(cmd))
         os.system(cmd)
         ResultLine.from_csv(self.csv_of_result_file(), self)
+
+    def create_inundation_png(self, asc=None):
+        if asc is None:
+            asc = os.path.join(
+                self.workdir(), 'inundatiekaart.asc')
+        if not os.path.exists(asc):
+            pass
+        
+        dataset = util.gdal_open(asc)
+        band = dataset.GetRasterBand(1)
+        data = band.ReadAsArray()
+        shape = data.shape + (4,)
+
+        rgba = np.zeros(shape, np.uint8)
+        rgba[:, :, 0] = np.where(
+            (data == 2), 255, 0)  # 2 is rood
+        rgba[:, :, 1] = np.where(
+            (data == 1), 255, 0)  # 1 is groen
+        rgba[:, :, 2] = np.where(
+            (data == 0), 255, 0)  # 0 is blauw
+        rgba[:, :, 3] = np.where(
+            (data != band.GetNoDataValue()), 255, 0)  # nodata is transparant
+
+        Image.fromarray(rgba).save(
+            os.path.join(self.workdir(), 'inundatiekaart.png'))
 
     def csv_of_result_file(self):
         result = os.path.join(self.workdir(), 'resultaat.txt')

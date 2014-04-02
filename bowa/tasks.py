@@ -40,6 +40,7 @@ def run_scenario(scenario_id, taskname, username):
     try:
         scenario = models.BowaScenario.objects.get(pk=scenario_id)
         scenario.run_r(logger)
+        scenario.create_inundation_png()
         emails.send_success_mail(scenario, "admin", logger, start_dt)
     except:
         exc_info = sys.exc_info()

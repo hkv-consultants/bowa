@@ -69,6 +69,7 @@ write.table(opgave$resultaat,
 message("Maak grafiek van de inundatiefractie")
 kaarten$inundatie <- opgave$inundatiekaart$inundatie
 r <- maak.raster(kaarten, "inundatie")
+writeRaster(r, file.path(WERKMAP, "inundatiekaart.asc"), NAflag=-9999)
 
 succes <- TRUE
 tryCatch(png(file = file.path(WERKMAP, "inundatiekaart.png"),
