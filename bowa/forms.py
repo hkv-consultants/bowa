@@ -70,7 +70,7 @@ class ScenarioForm(forms.Form):
     )
 
     lg = forms.FileField(
-        label="Grondgebruik rasterbestand",
+        label="Grondgebruik",
         required=True,
         help_text="Landgebruik en open water")
 
@@ -85,19 +85,19 @@ class ScenarioForm(forms.Form):
         help_text="Foutenmatrix behorende bij de grondgebruik kaart")
 
     ah = forms.FileField(
-        label="Maaiveldhoogte rasterbestand",
+        label="Maaiveldhoogte",
         required=True,
         help_text="Maaiveldhoogte")
 
     te = forms.FileField(
-        label="Normering rasterbestand",
+        label="Toetseenheden",
         required=True,
         help_text="Rasterbestand met toetseenheden")
 
     pg = forms.FileField(
         label="Peilgebieden",
         required=True,
-        help_text="Peilgebieden rasterbestand")
+        help_text="Peilgebieden")
 
     ht10 = forms.FileField(
         label="Waterstanden H10",
