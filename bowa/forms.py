@@ -70,24 +70,24 @@ class ScenarioForm(forms.Form):
     )
 
     lg = forms.FileField(
-        label="Grondgebruik",
+        label="Landgebruik",
         required=True,
         help_text="Landgebruik en open water")
+
+    fouten = forms.FileField(
+        label="Foutenmatrix landgebruik",
+        required=True,
+        help_text="Foutenmatrix behorende bij de landgebruik kaart")
 
     normen = forms.FileField(
         label="Normen bestand",
         required=True,
         help_text="Normen bestand waarin de normen worden beschreven.")
 
-    fouten = forms.FileField(
-        label="Fouten matrix",
-        required=True,
-        help_text="Foutenmatrix behorende bij de grondgebruik kaart")
-
     ah = forms.FileField(
-        label="Maaiveldhoogte",
+        label="Maaiveldhoogten",
         required=True,
-        help_text="Maaiveldhoogte")
+        help_text="Rasterbestand met maaiveldhoogten")
 
     te = forms.FileField(
         label="Toetseenheden",
@@ -97,7 +97,7 @@ class ScenarioForm(forms.Form):
     pg = forms.FileField(
         label="Peilgebieden",
         required=True,
-        help_text="Peilgebieden")
+        help_text="Rasterbestand met peilgebieden")
 
     ht10 = forms.FileField(
         label="Waterstanden H10",
@@ -107,7 +107,7 @@ class ScenarioForm(forms.Form):
     ht25 = forms.FileField(
         label="Waterstanden H25",
         required=True,
-        help_text="Maatgevende waterstanden met een herhalingstijd van 10 jaar")
+        help_text="Maatgevende waterstanden met een herhalingstijd van 25 jaar")
 
     ht50 = forms.FileField(
         label="Waterstanden H50",
