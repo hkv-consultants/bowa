@@ -107,20 +107,20 @@ def result_graph_image(request, slug):
         raise Http404()
 
     toetseenheid = request.GET.get('toetseenheid')
-    grondgebruik = request.GET.get('grondgebruik')
-    normfunctie = request.GET.get('normfunctie')
+    landgebruik = request.GET.get('landgebruik')
+    resultaat = request.GET.get('resultaat')
 
     logger.debug('Toetseenheid : ' + toetseenheid)
-    logger.debug('Grondgebruik : ' + grondgebruik)
-    logger.debug('Normfunctie : ' + normfunctie)
+    logger.debug('Grondgebruik : ' + landgebruik)
+    logger.debug('Normfunctie : ' + resultaat)
 
     # Result lines
     wateropgave = scenario.resultline_set.filter(
         toetseenheid=toetseenheid,
-        functie=grondgebruik,
+        functie=landgebruik,
         percentage__gt=0)
 
-    data = list(wateropgave.values_list(normfunctie, flat=True))
+    data = list(wateropgave.values_list(resultaat, flat=True))
 
     fig = Figure()
     ax = fig.add_subplot(111)
@@ -129,16 +129,16 @@ def result_graph_image(request, slug):
     if data:
     	ax.hist(data,numBins,color='blue',alpha=0.8)
 
-    titel = 'Toetseenheid ' + toetseenheid + ':' + grondgebruik
+    titel = 'Toetseenheid ' + toetseenheid + ':' + landgebruik
 
-    if normfunctie == 'toetshoogte':
+    if resultaat == 'toetshoogte':
        xlabel = 'Toetshoogte [m+NAP]'
-    elif normfunctie == 'oppervlakte':
+    elif resultaat == 'oppervlakte':
        xlabel = 'Oppervlakte [m**2]'
-    elif normfunctie == 'volume':
-       xlabel = 'Volume [m**3]'
-    elif normfunctie == 'percentage':
-       xlabel = 'Percentage [%]'
+    elif resultaat == 'volume':
+       xlabel = 'Wateropgave [m**3]'
+    elif resultaat == 'percentage':
+       xlabel = 'Inundatieoppervlakte [%]'
 
     ax.set_xlabel(xlabel)
     ax.set_ylabel('Aantal simulaties [-]')

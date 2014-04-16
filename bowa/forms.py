@@ -80,9 +80,9 @@ class ScenarioForm(forms.Form):
         help_text="Foutenmatrix behorende bij de landgebruik kaart")
 
     normen = forms.FileField(
-        label="Normen bestand",
+        label="Normen",
         required=True,
-        help_text="Normen bestand waarin de normen worden beschreven.")
+        help_text="Bestand waarin de normen worden beschreven.")
 
     ah = forms.FileField(
         label="Maaiveldhoogten",
@@ -100,37 +100,32 @@ class ScenarioForm(forms.Form):
         help_text="Rasterbestand met peilgebieden")
 
     ht10 = forms.FileField(
-        label="Waterstanden H10",
+        label="Waterstanden HT10",
         required=True,
         help_text="Maatgevende waterstanden met een herhalingstijd van 10 jaar")
 
     ht25 = forms.FileField(
-        label="Waterstanden H25",
+        label="Waterstanden HT25",
         required=True,
         help_text="Maatgevende waterstanden met een herhalingstijd van 25 jaar")
 
     ht50 = forms.FileField(
-        label="Waterstanden H50",
+        label="Waterstanden HT50",
         required=True,
         help_text="Maatgevende waterstanden met een herhalingstijd van 50 jaar")
 
     ht100 = forms.FileField(
-        label="Waterstanden H100",
+        label="Waterstanden HT100",
         required=True,
         help_text="Maatgevende waterstanden met een herhalingstijd van 100 jaar")
 
-    nsim = forms.IntegerField(
-        label="Aantal simulaties",
-        required=True,
-        help_text="Hoeveel Monte Carlo simulatioes moeten er worden gemaakt")
-
     ahdev = forms.FloatField(
-        label="Afwijking maaiveldhoogte",
+        label="Onzekerheidsmarge maaiveldhoogte [m]",
         required=True,
         help_text="Niet negatieve waarde voor de afwijking in de maaiveldhoogte")
 
     htdev = forms.FloatField(
-        label="Afwijking waterhoogte",
+        label="Onzekerheidsmarge waterhoogte [m]",
         required=True,
         help_text="Niet negatieve waarde voor de afwijking in de waterhoogte")
 
@@ -139,6 +134,11 @@ class ScenarioForm(forms.Form):
         choices=SCENARIO_TYPES,
         widget=forms.widgets.RadioSelect(renderer=CustomRadioSelectRenderer),
         help_text="Scenario type")
+
+    nsim = forms.IntegerField(
+        label="Aantal simulaties",
+        required=True,
+        help_text="Hoeveel Monte Carlo simulatioes moeten er worden gemaakt")
 
 
     @property

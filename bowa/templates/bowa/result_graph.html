@@ -5,30 +5,30 @@
 <script>
 
   var toetseenheid = $('#toetseenheid>option:selected').text();
-  var grondgebruik = $('#grondgebruik>option:selected').text();
-  var normfunctie =  $('#normfunctie>option:selected').val();
+  var landgebruik = $('#landgebruik>option:selected').text();
+  var resultaat =  $('#resultaat>option:selected').val();
 
-  set_image_url(toetseenheid, grondgebruik, normfunctie);
+  set_image_url(toetseenheid, landgebruik, resultaat);
 
   $("#toetseenheid").change(function() {
     toetseenheid = $(this).val();
-    set_image_url(toetseenheid, grondgebruik, normfunctie);
+    set_image_url(toetseenheid, landgebruik, resultaat);
   });
 
-  $("#grondgebruik").change(function() {
-    grondgebruik = $(this).val();
-    set_image_url(toetseenheid, grondgebruik, normfunctie);
+  $("#landgebruik").change(function() {
+    landgebruik = $(this).val();
+    set_image_url(toetseenheid, landgebruik, resultaat);
   });
 
-  $("#normfunctie").change(function() {
-    normfunctie = $(this).val();
-    set_image_url(toetseenheid, grondgebruik, normfunctie);
+  $("#resultaat").change(function() {
+    resultaat = $(this).val();
+    set_image_url(toetseenheid, landgebruik, resultaat);
   });
 
-  function set_image_url(toetseenheid, grondgebruik, normfunctie) {
+  function set_image_url(toetseenheid, landgebruik, resultaat) {
     var base_image_url = "{% url bowa_result_graph_image slug=view.result.slug %}";
 
-    var image_url = base_image_url + "?toetseenheid=" + toetseenheid + "&grondgebruik=" + grondgebruik + "&normfunctie=" + normfunctie;
+    var image_url = base_image_url + "?toetseenheid=" + toetseenheid + "&landgebruik=" + landgebruik + "&resultaat=" + resultaat;
 
     var imagediv = document.getElementById("imageDiv");
     imagediv.src = image_url;
@@ -53,20 +53,20 @@
 				</select>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="grondgebruik">Grondgebruik</label>
-				<select id="grondgebruik">
+				<label class="control-label" for="landgebruik">Landgebruik</label>
+				<select id="landgebruik">
 					{% for row in view.result.list_of_grondgebruiken %}
 						<option>{{ row }}</option>
 					{% endfor %}
 				</select>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="normfunctie">Normfunctie</label>
-				<select id="normfunctie">
+				<label class="control-label" for="resultaat">Resultaat</label>
+				<select id="resultaat">
 					 <option value="toetshoogte">Toetshoogte [m+NAP]</option>
-					 <option value="volume">Volume [m**3]</option>
+					 <option value="volume">Wateropgave [m**3]</option>
 					 <option value="oppervlakte">Oppervlakte [m**2]</option>
-					 <option value="percentage">Percentage [%]</option>
+					 <option value="percentage">Inundatieoppervlakte [%]</option>
 				</select>
 			</div>
 		</div>

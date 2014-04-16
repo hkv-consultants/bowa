@@ -38,8 +38,8 @@ FIXED_FILENAMES = {
 
 class BowaScenario(models.Model):
     SCENARIO_TYPES = (
-        (1, "Simulaties"),
-        (2, "NBW Toetsing"))
+        (1, "NBW toetsing met onzekerheden (simulaties)"),
+        (2, "NBW Toetsing zonder onzekerheden"))
 
     name = models.CharField(max_length=100)
     email = models.EmailField()
