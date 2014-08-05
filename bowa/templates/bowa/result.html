@@ -4,7 +4,7 @@
 Homepage
 <ul>
   <li>
-    <a href="{% url bowa_homepage %}">Terug naar de homepage</a>
+    <a href="{% url "bowa_homepage" %}">Terug naar de homepage</a>
   </li>
 </ul>
 Downloads
@@ -16,13 +16,13 @@ Downloads
 Resultaat
 <ul>
    <li>
-      <a href="{% url bowa_result slug=view.result.slug %}" {% if view.active_menu == "table" %}style="font-weight: bold;"{% endif %}>Resultaat - Tabel</a>
+      <a href="{% url "bowa_result" slug=view.result.slug %}" {% if view.active_menu == "table" %}style="font-weight: bold;"{% endif %}>Resultaat - Tabel</a>
    </li>
    <li>
-      <a href="{% url bowa_result_map slug=view.result.slug %}" {% if view.active_menu == "map" %}style="font-weight: bold;"{% endif %}>Resultaat - Kaart</a>
+      <a href="{% url "bowa_result_map" slug=view.result.slug %}" {% if view.active_menu == "map" %}style="font-weight: bold;"{% endif %}>Resultaat - Kaart</a>
    </li>
    <li>
-      <a href="{% url bowa_result_graph slug=view.result.slug %}" {% if view.active_menu == "graph" %}style="font-weight: bold;"{% endif %}>Resultaat - Grafiek</a>
+      <a href="{% url "bowa_result_graph" slug=view.result.slug %}" {% if view.active_menu == "graph" %}style="font-weight: bold;"{% endif %}>Resultaat - Grafiek</a>
    </li>
 </ul>
 {% endblock menu %}
@@ -60,4 +60,3 @@ Resultaat
 	</div>
 </div>
 {% endblock %}
-

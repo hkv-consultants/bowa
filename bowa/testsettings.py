@@ -42,7 +42,7 @@ SECRET_KEY = 'This is not secret but that is ok.'
 INSTALLED_APPS = [
     'bowa',
     'lizard_ui',
-    'staticfiles',
+    'django.contrib.staticfiles',
     'compressor',
     'south',
     'django_nose',

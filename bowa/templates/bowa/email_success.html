@@ -4,7 +4,7 @@
 
     Het BOWA scenario <strong>"{{ scenario.name }}"</strong> is uitgerekend. Klik onderstaande link om te resultaten te bekijken. <br/><br/>
 
-    <a href="{{ ROOT_URL }}{% url bowa_result slug=scenario.slug %}">Resultaten "{{ scenario.name }}"</a>
+    <a href="{{ ROOT_URL }}{% url "bowa_result" slug=scenario.slug %}">Resultaten "{{ scenario.name }}"</a>
 
   <br/><br/>
   --<br/>

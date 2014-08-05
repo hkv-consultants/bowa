@@ -42,7 +42,7 @@
 
 {% block content %}
 <div class="container">
-<form action="{% url bowa_homepage %}" method="post" enctype="multipart/form-data">
+<form action="{% url "bowa_homepage" %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
     {% for field in view.scenario_form %}
 <div class="row">
