@@ -26,7 +26,7 @@
   });
 
   function set_image_url(toetseenheid, landgebruik, resultaat) {
-    var base_image_url = "{% url bowa_result_graph_image slug=view.result.slug %}";
+    var base_image_url = "{% url "bowa_result_graph_image" slug=view.result.slug %}";
 
     var image_url = base_image_url + "?toetseenheid=" + toetseenheid + "&landgebruik=" + landgebruik + "&resultaat=" + resultaat;
 
