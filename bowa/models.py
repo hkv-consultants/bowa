@@ -36,6 +36,51 @@ FIXED_FILENAMES = {
     'normen': 'normen.txt',
 }
 
+
+INUNDATION_CLASSES = (
+    # Minimum waarde, kleur
+    (0, "D7191C"),
+    (10, "E65437"),
+    (20, "F59053"),
+    (30, "FDBE73"),
+    (40, "FEDE99"),
+    (50, "FFFFBF"),
+    (60, "DDF1B4"),
+    (70, "BBE3A9"),
+    (80, "91CBA8"),
+    (90, "5EA7B1"),
+    (100, "2B83BA")
+)
+
+
+def color_to_rgb(color):
+    return np.array([int(color[0:2], 16),
+                     int(color[2:4], 16),
+                     int(color[4:6], 16),
+                     255])
+
+
+def colored_image_from_inundation_data(data, nodatavalue):
+    shape = data.shape + (4,)
+    rgba = np.zeros(shape, np.uint8)
+
+    for (minvalue, mincolor), (maxvalue, dummy) in zip(
+            INUNDATION_CLASSES, INUNDATION_CLASSES[1:] + ((None, None),)):
+        if maxvalue is not None:
+            in_range = np.logical_and(data >= minvalue, data < maxvalue)
+        else:
+            in_range = data >= minvalue
+
+        rgba[np.where(in_range), :] = color_to_rgb(mincolor)
+
+    # Make nodata transparant
+    transparancy = rgba[:, :, 3]
+    transparancy[np.where(data == nodatavalue)] = 0
+    rgba[:, :, 3] = transparancy
+
+    return rgba
+
+
 class BowaScenario(models.Model):
     SCENARIO_TYPES = (
         (1, "NBW toetsing met onzekerheden (simulaties)"),
@@ -111,15 +156,15 @@ class BowaScenario(models.Model):
         self.save()
 
     def run_r(self, logger):
-	
+
 	if (self.scenario_type == 1):
             cmd = ("R --vanilla --slave --args  {workdir}  {fouten} {normen} {nsim} {ahdev} {htdev} {rho} < {r_script}"
                 .format(
-                    workdir=self.workdir(), 
+                    workdir=self.workdir(),
                     fouten=FIXED_FILENAMES['fouten'],
-                    normen=FIXED_FILENAMES['normen'], 
+                    normen=FIXED_FILENAMES['normen'],
                     nsim=self.nsim,
-                    ahdev=self.ahdev, 
+                    ahdev=self.ahdev,
                     htdev=self.htdev,
                     rho=self.rho,
                     r_script=os.path.join(os.path.dirname(__file__), 'r', 'simulatie.R')
@@ -128,8 +173,8 @@ class BowaScenario(models.Model):
             cmd = ("R --vanilla --slave --args  {workdir}  {fouten} {normen} < {r_script}"
                 .format(
                     workdir=self.workdir(),
-                    fouten=FIXED_FILENAMES['fouten'], 
-                    normen=FIXED_FILENAMES['normen'], 
+                    fouten=FIXED_FILENAMES['fouten'],
+                    normen=FIXED_FILENAMES['normen'],
                     r_script=os.path.join(os.path.dirname(__file__), 'r', 'nbw_toetsing.R')
                 ))
 
@@ -143,21 +188,13 @@ class BowaScenario(models.Model):
                 self.workdir(), 'inundatiekaart.asc')
         if not os.path.exists(asc):
             pass
-        
+
         dataset = util.gdal_open(asc)
         band = dataset.GetRasterBand(1)
         data = band.ReadAsArray()
-        shape = data.shape + (4,)
 
-        rgba = np.zeros(shape, np.uint8)
-        rgba[:, :, 0] = np.where(
-            (data == 2), 255, 0)  # 2 is rood
-        rgba[:, :, 1] = np.where(
-            (data == 1), 255, 0)  # 1 is groen
-        rgba[:, :, 2] = np.where(
-            (data == 0), 255, 0)  # 0 is blauw
-        rgba[:, :, 3] = np.where(
-            (data != band.GetNoDataValue()), 255, 0)  # nodata is transparant
+        rgba = colored_image_from_inundation_data(
+            data, band.GetNoDataValue())
 
         Image.fromarray(rgba).save(
             os.path.join(self.workdir(), 'inundatiekaart.png'))
@@ -181,7 +218,7 @@ class BowaScenario(models.Model):
             value['functie'] for value in
             self.resultline_set.filter(percentage__gt=0).values('functie').distinct()
             )
- 
+
     def __unicode__(self):
         return self.name
 
@@ -201,7 +238,7 @@ class ResultLine(models.Model):
     def from_csv(cls, csv_list, scenario):
         # Throw away existing lines
         scenario.resultline_set.all().delete()
-        
+
         # Add new lines
         for line in csv_list[1:]:
             if len(line) == 6:
