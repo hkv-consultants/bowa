@@ -9,7 +9,7 @@ long_description = '\n\n'.join([
     ])
 
 install_requires = [
-    'Django >= 1.4, < 1.7',
+    'Django >= 1.4',
     'django-extensions',
     'django-nose',
     'lizard-ui >= 4.40, < 5.0',
